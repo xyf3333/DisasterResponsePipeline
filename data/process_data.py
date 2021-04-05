@@ -11,17 +11,27 @@ def load_data(messages_filepath, categories_filepath):
     messages_filepath - the csv file provide messages data.
     categories_filepath - the csv file provide categories data.
     
-    OUTPUT:
-    
-    
+    OUTPUT: dataframe
+ 
     Description:
-    Provides a list of the article_ids and article titles that have been seen by a user
+    return a dataframe merging the both of two inputs.
     '''
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
     df = messages.merge(categories, how ='left', on = 'id')
     return df
 def clean_data(df):
+    
+    '''
+    INPUT: a dataframe
+    
+    OUTPUT: a dataframe
+ 
+    Description:
+    rename the columns of `categories` ,  drop duplicates and convert column from string to numeric
+    
+    '''
+    
     categories = df.categories.str.split(';', expand = True)
     row = categories.iloc[0]
     category_colnames = [re.sub('-.', '', x) for x in row]
@@ -45,7 +55,14 @@ def clean_data(df):
     return df
 
 def save_data(df, database_filename):
-
+    '''
+    INPUT: a dataframe, the database location
+    
+    OUTPUT: None
+ 
+    Description:Save the dataframe into a database
+    
+    '''
     # Creating sqlite DataBase Connection Object
     conn = sqlite3.connect(database_filename)
     

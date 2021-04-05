@@ -23,6 +23,15 @@ nltk.download(['punkt', 'wordnet', 'stopwords'])
 
 
 def load_data(database_filepath):
+    '''
+    INPUT: the data location
+    
+    OUTPUT: the dataframe of message, the dataframe of categores, categores' name
+ 
+    Description:Load data from database and separate it into X, Y.
+    
+    '''
+    
     # Creating the Connection object of sqlite Database
     conn = sqlite3.connect(database_filepath)
     # getting data from sqlite data base
@@ -34,6 +43,17 @@ def load_data(database_filepath):
     return X, Y ,columns
 
 def tokenize(text):
+    
+    '''
+    INPUT: a message
+    
+    OUTPUT: tokenize text
+ 
+    Description:NLP
+    
+    '''
+    
+    
     # normalize case and remove punctuation
     text = re.sub(r"[^a-zA-Z0-9]", " ", text.lower())
     
@@ -44,10 +64,19 @@ def tokenize(text):
     stop_words = stopwords.words("english")
     lemmatizer = WordNetLemmatizer()
     tokens = [lemmatizer.lemmatize(word) for word in tokens if word not in stop_words]
-    #tokens = [lemmatizer.lemmatize(word) for word in tokens ]
+
     return tokens
 
 def build_model():
+    
+    '''
+    
+    OUTPUT: model
+ 
+    Description:build model using pipeline and GridSearchCV
+    
+    '''
+    
     pipeline = Pipeline([
     ('vect', CountVectorizer(tokenizer=tokenize)),
     ('tfidf', TfidfTransformer()),
@@ -64,11 +93,19 @@ def build_model():
     return model
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    
+    '''
+    Description:evaluate model using classification_report, Report the f1 score, precision and recall for each output category of the dataset.
+    '''
+    
     Y_pred = model.predict(X_test)
     for i in range(len(category_names)):
         classification_report(Y_test[[category_names[i]]], Y_pred[:, i])
 
 def save_model(model, model_filepath):
+    '''
+    Description: Export your model as a pickle file
+    '''
     list_pickle = open(model_filepath, 'wb')
     pickle.dump(model, list_pickle)
     list_pickle.close()
