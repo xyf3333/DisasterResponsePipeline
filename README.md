@@ -69,6 +69,8 @@ Here's the file structure of the project:
 
 # Result:
 
+![3703e90575de191e8510e34b4f00ba0](https://user-images.githubusercontent.com/34250620/113531498-f734d580-9596-11eb-93f8-ff30c8ac0bba.png)
+![835be2726ae9d80ef3e6f768f27113a](https://user-images.githubusercontent.com/34250620/113531507-fd2ab680-9596-11eb-85f3-3da08a758cd5.png)
 
 
 
